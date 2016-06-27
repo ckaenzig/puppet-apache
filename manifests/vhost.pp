@@ -117,18 +117,18 @@ define apache_c2c::vhost (
         'RedHat' => 'httpd_sys_content_t',
         default  => undef,
       }
-      ensure_resource(
-        'file',
-        "${::apache_c2c::root}/${servername}",
-        {
-          ensure  => directory,
-          owner   => root,
-          group   => root,
-          mode    => '0755',
-          seltype => $docroot_seltype,
-          require => File[$wwwroot],
-        }
-      )
+#      ensure_resource(
+#        'file',
+#        "${::apache_c2c::root}/${servername}",
+#        {
+#          ensure  => directory,
+#          owner   => root,
+#          group   => root,
+#          mode    => '0755',
+#          seltype => $docroot_seltype,
+#          require => File[$wwwroot],
+#        }
+#      )
 
       $confdir_owner = $admin ? {
         ''      => $wwwuser,
@@ -138,50 +138,50 @@ define apache_c2c::vhost (
         'RedHat' => 'httpd_config_t',
         default  => undef,
       }
-      ensure_resource(
-        'file',
-        "${::apache_c2c::root}/${servername}/conf",
-        {
-          ensure  => directory,
-          owner   => $confdir_owner,
-          group   => $wwwgroup,
-          mode    => $mode,
-          seltype => $confdir_seltype,
-        }
-      )
+      #ensure_resource(
+      #  'file',
+      #  "${::apache_c2c::root}/${servername}/conf",
+      #  {
+      #    ensure  => directory,
+      #    owner   => $confdir_owner,
+      #    group   => $wwwgroup,
+      #    mode    => $mode,
+      #    seltype => $confdir_seltype,
+      #  }
+      #)
 
       $htdocs_seltype = $::osfamily ? {
         'RedHat' => 'httpd_sys_content_t',
         default  => undef,
       }
-      ensure_resource(
-        'file',
-        "${::apache_c2c::root}/${servername}/htdocs",
-        {
-          ensure  => directory,
-          owner   => $wwwuser,
-          group   => $wwwgroup,
-          mode    => $mode,
-          seltype => $htdocs_seltype,
-        }
-      )
+      #ensure_resource(
+      #  'file',
+      #  "${::apache_c2c::root}/${servername}/htdocs",
+      #  {
+      #    ensure  => directory,
+      #    owner   => $wwwuser,
+      #    group   => $wwwgroup,
+      #    mode    => $mode,
+      #    seltype => $htdocs_seltype,
+      #  }
+      #)
 
       # Private data
       $private_seltype = $::osfamily ? {
         'RedHat' => 'httpd_sys_content_t',
         default  => undef,
       }
-      ensure_resource(
-        'file',
-        "${::apache_c2c::root}/${servername}/private",
-        {
-          ensure  => directory,
-          owner   => $wwwuser,
-          group   => $wwwgroup,
-          mode    => $mode,
-          seltype => $private_seltype,
-        }
-      )
+      #ensure_resource(
+      #  'file',
+      #  "${::apache_c2c::root}/${servername}/private",
+      #  {
+      #    ensure  => directory,
+      #    owner   => $wwwuser,
+      #    group   => $wwwgroup,
+      #    mode    => $mode,
+      #    seltype => $private_seltype,
+      #  }
+      #)
 
       # cgi-bin
       # don't manage this directory unless under $root/$name
@@ -197,35 +197,35 @@ define apache_c2c::vhost (
         'RedHat' => 'httpd_sys_script_exec_t',
         default  => undef,
       }
-      ensure_resource(
-        'file',
-        "${::apache_c2c::root}/${servername} cgi-bin directory",
-        {
-          ensure  => $cgidir_ensure,
-          path    => $cgidir_path,
-          owner   => $wwwuser,
-          group   => $wwwgroup,
-          mode    => $mode,
-          seltype => $cgidir_seltype,
-        }
-      )
+      #ensure_resource(
+      #  'file',
+      #  "${::apache_c2c::root}/${servername} cgi-bin directory",
+      #  {
+      #    ensure  => $cgidir_ensure,
+      #    path    => $cgidir_path,
+      #    owner   => $wwwuser,
+      #    group   => $wwwgroup,
+      #    mode    => $mode,
+      #    seltype => $cgidir_seltype,
+      #  }
+      #)
 
       # Log files
       $logdir_seltype = $::osfamily ? {
         'RedHat' => 'httpd_log_t',
         default  => undef,
       }
-      ensure_resource(
-        'file',
-        "${::apache_c2c::root}/${servername}/logs",
-        {
-          ensure  => directory,
-          owner   => root,
-          group   => root,
-          mode    => '0755',
-          seltype => $logdir_seltype,
-        }
-      )
+      #ensure_resource(
+      #  'file',
+      #  "${::apache_c2c::root}/${servername}/logs",
+      #  {
+      #    ensure  => directory,
+      #    owner   => root,
+      #    group   => root,
+      #    mode    => '0755',
+      #    seltype => $logdir_seltype,
+      #  }
+      #)
 
       # We have to give log files to right people with correct rights on them.
       # Those rights have to match those set by logrotate
@@ -233,38 +233,38 @@ define apache_c2c::vhost (
         'RedHat' => 'httpd_log_t',
         default  => undef,
       }
-      ensure_resource(
-        'file',
-        [
-          "${::apache_c2c::root}/${servername}/logs/access.log",
-          "${::apache_c2c::root}/${servername}/logs/error.log",
-        ],
-        {
-          ensure  => present,
-          owner   => root,
-          group   => adm,
-          mode    => '0644',
-          seltype => $logfiles_seltype,
-          require => File["${::apache_c2c::root}/${servername}/logs"],
-        }
-      )
+      #ensure_resource(
+      #  'file',
+      #  [
+      #    "${::apache_c2c::root}/${servername}/logs/access.log",
+      #    "${::apache_c2c::root}/${servername}/logs/error.log",
+      #  ],
+      #  {
+      #    ensure  => present,
+      #    owner   => root,
+      #    group   => adm,
+      #    mode    => '0644',
+      #    seltype => $logfiles_seltype,
+      #    require => File["${::apache_c2c::root}/${servername}/logs"],
+      #  }
+      #)
 
       # README file
       $readme_content = $readme ? {
         false   => template('apache_c2c/README_vhost.erb'),
         default => $readme,
       }
-      ensure_resource(
-        'file',
-        "${::apache_c2c::root}/${servername}/README",
-        {
-          ensure  => present,
-          owner   => root,
-          group   => root,
-          mode    => '0644',
-          content => $readme_content,
-        }
-      )
+      #ensure_resource(
+      #  'file',
+      #  "${::apache_c2c::root}/${servername}/README",
+      #  {
+      #    ensure  => present,
+      #    owner   => root,
+      #    group   => root,
+      #    mode    => '0644',
+      #    content => $readme_content,
+      #  }
+      #)
 
       if $::apache_c2c::backend != 'puppetlabs' {
         $enable_vhost_command = $::osfamily ? {
